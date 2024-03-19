@@ -1,0 +1,94 @@
+﻿@model SV20T1020390.web.Models.ProductSearchInput
+@{
+    // Sử dụng layout khác
+    // Layout = "_Layout2";
+    // nếu ko có layout thì sử dụng layout mặc định
+    ViewBag.Title = "Quản lý Mặt hàng";
+    // Layout = null; // Khong dùng đến layout
+}
+
+<div class="box box-primary">
+    <div class="box-body">
+        <!--Form nhập đầu vào tìm kiếm-->
+        <form id="formSearch" action="~/Product/Search" method="get" data-container="#searchResult">
+            <div class="container-fluid row">
+                <div class="col-sm-3">
+                    @* <select class="form-control" name="category">
+                        <option>-- Tất cả loại hàng --</option>
+                        <option>-- Điện gia dụng --</option>
+                        <option>-- Thực phẩm --</option>
+                    </select> *@
+                    @Html.DropDownListFor(m => m.CategoryID, SelectListHelper.Categories(), new { @class = "form-control" })
+                </div>
+                <div class="col-sm-3">
+                    @* <select class="form-control" name="supplier">
+                        <option>-- Tất cả nhà cung cấp --</option>
+                        <option>-- Công ty TNHH Vô hạn --</option>
+                        <option>-- Công ty vinamilk --</option>
+                    </select> *@
+                    @Html.DropDownListFor(m => m.SupplierID, SelectListHelper.Suppliers(), new { @class = "form-control" })
+                </div>
+                <div class="col-sm-6 input-group">
+                    <div class="input-group">
+                        <input type="hidden" name="@nameof(Model.PageSize)" value="@Model.PageSize" />
+                        <input name="@nameof(Model.SearchValue)" type="text" class="form-control" placeholder="Nhập tên mặt hàng cần tìm" value="@Model.SearchValue">
+
+                        <div class="input-group-btn">
+                            <button class="btn btn-info" type="submit">
+                                <i class="glyphicon glyphicon-search"></i>
+                            </button>
+                            <a href="~/Product/Create" class="btn btn-primary" style="margin-left:5px">
+                                <i class="fa fa-plus"></i> Bổ sung
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+
+        <!-- Hiển thị kết quả tìm kiếm -->
+        <div id="searchResult"></div>
+
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            $("#CategoryID").change(function () {
+                doSearch("#formSearch", 1); // Gửi yêu cầu tìm kiếm khi giá trị thay đổi
+            });
+            $("#SupplierID").change(function () {
+                doSearch("#formSearch", 1); // Gửi yêu cầu tìm kiếm khi giá trị thay đổi
+            });
+            $("#formSearch").submit(function (e) {
+                e.preventDefault();
+                doSearch(this, 1);
+                return;
+            });
+
+            doSearch("#formSearch", @Model.Page);
+        });
+
+        function doSearch(formSearchInput, page) {
+            var url = $(formSearchInput).prop("action");
+            var container = $(formSearchInput).data("container");
+            var postData = $(formSearchInput).serializeArray();
+            postData.push({ "name": "page", "value": page });
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: postData,
+                error: function () {
+                    alert("Your request is not valid!");
+                },
+                success: function (data) {
+                    $(container).html(data);
+                }
+            });
+
+            return;
+        }
+    </script>
+}

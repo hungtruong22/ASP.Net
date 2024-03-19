@@ -1,0 +1,107 @@
+﻿@model SV20T1020390.DomainModels.Customer
+@{
+
+}
+
+<div class="box box-primary">
+    <div class="box-body">
+        <form action="~/Customer/Save" method="post">
+
+            @* @Html.ValidationSummary("", new{@style = "color : #f00"}) *@
+
+            @* <input type="hidden" name="@nameof(Model.CustomerId)" value="@Model.CustomerId"/> *@
+            @Html.HiddenFor(m => m.CustomerId)
+            <div class="form-group">
+                <label>Tên khách hàng:</label>
+                @Html.TextBoxFor(m => m.CustomerName, new { @class = "form-control", @autofocus = "autofocus"})
+                @* <input type="text" class="form-control" name="@nameof(Model.CustomerName)" autofocus value="@Model.CustomerName"> *@
+                @Html.ValidationMessage(nameof(Model.CustomerName), new {@style = "color: #f00"})
+            </div>
+
+            <div class="form-group">
+                <label>Tên giao dịch:</label>
+                <input type="text" class="form-control" name="@nameof(Model.ContactName)" value="@Model.ContactName">
+                @Html.ValidationMessage(nameof(Model.ContactName), new { @style = "color: #f00" })
+               @*  @Html.ValidationMessageFor(m => m.ContactName, "", new { @style = "color: #f00" }) *@
+            </div>
+
+            <div class="form-group">
+                <label>Điện thoại:</label>
+                @* <input type="text" class="form-control" name="@nameof(Model.Phone)" value="@Model.Phone"> *@
+                @Html.TextBoxFor(m => m.Phone, new { @class = "form-control"})
+                @Html.ValidationMessage(nameof(Model.Phone), new { @style = "color: #f00" })
+            </div>
+
+            <div class="form-group">
+                <label>Email:</label>
+                @* <input type="text" class="form-control" name="@nameof(Model.Email)" value="@Model.Email"> *@
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control"})
+                @Html.ValidationMessage(nameof(Model.Email), new { @style = "color: #f00" })
+            </div>
+
+            <div class="form-group">
+                <label>Địa chỉ:</label>
+                @* <input type="text" class="form-control" name="@nameof(Model.Address)" value="@Model.Address"> *@
+                @Html.TextBoxFor(m => m.Address, new { @class = "form-control"})
+                @Html.ValidationMessage(nameof(Model.Address), new { @style = "color: #f00" })
+            </div>
+
+            <div class="form-group">
+                <label>Tỉnh/Thành:</label>
+                @* <select class="form-control" name="@nameof(Model.Province)">
+                    <option value="">-- Chọn tỉnh/thành --</option>
+                    @foreach(var item in SV20T1020390.BusinessLayers.CommonDataService.ListOfProvinces())
+                    {
+                        if(item.ProvinceName == Model.Province)
+                        {
+                            <option value="@item.ProvinceName" selected>@item.ProvinceName</option>
+                        }
+                        else
+                        {
+                            <option value="@item.ProvinceName">@item.ProvinceName</option>
+                        }
+                    }
+                </select> *@
+                @Html.DropDownListFor(m => m.Province, SelectListHelper.Provinces(), new {@class="form-control"})
+                @Html.ValidationMessage(nameof(Model.Province), new { @style = "color: #f00" })
+            </div>
+
+            <div class="form-group">
+                <label>Trạng thái:</label>
+                <select class="form-control" name="@nameof(Model.IsLocked)">
+                    @if (Model.IsLocked)
+                    {
+                        <option value="false">Tài khoản không bị khóa</option>
+                        <option value="true" selected>Tài khoản bị khóa</option>
+                    }
+                    else
+                    {
+                        <option value="false" selected>Tài khoản không bị khóa</option>
+                        <option value="true">Tài khoản bị khóa</option>
+                    }
+                </select>
+                @* <div class="form-check">
+                    <input type="radio" class="form-check-input" id="radio1" name="optradio" value="option1" checked>Option 1
+                    <label class="form-check-label" for="radio1"></label>
+                </div>
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" id="radio2" name="optradio" value="option2">Option 2
+                    <label class="form-check-label" for="radio2"></label>
+                </div> *@
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa fa-floppy-o"></i>
+                    Lưu dữ liệu
+                </button>
+                <a href="~/Customer" class="btn btn-default">
+                    Quay lại    
+                </a>
+            </div>
+            <div class="form-group">
+                @Html.ValidationMessage("Error", new { @style = "color: #f00" })
+            </div>
+        </form>
+    </div>
+</div>
