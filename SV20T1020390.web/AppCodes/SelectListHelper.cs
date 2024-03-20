@@ -63,5 +63,24 @@ namespace SV20T1020390.web
             }
             return list;
         }
+
+        public static List<SelectListItem> Statuses()
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+            list.Add(new SelectListItem()
+            {
+                Value = "0",
+                Text = "-- Trạng thái --",
+            });
+            foreach (var item in OrderDataService.ListOfStatus())
+            {
+                list.Add(new SelectListItem()
+                {
+                    Value = item.Status.ToString(),
+                    Text = item.Description
+                });
+            }
+            return list;
+        }
     }
 }

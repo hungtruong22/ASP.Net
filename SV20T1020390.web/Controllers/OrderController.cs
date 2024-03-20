@@ -150,8 +150,9 @@ namespace SV20T1020390.web.Controllers
             if (!result)
             {
                 TempData["Message"] = "Không thể xóa đơn hàng này";
+                return RedirectToAction("Details", new { id });
             }
-            return RedirectToAction("Details", new { id });
+            return RedirectToAction("Index");
         }
 
         /// <summary>
@@ -330,22 +331,23 @@ namespace SV20T1020390.web.Controllers
         /// <param name="salePrice">Giá bán</param>
         /// <returns></returns>
         [HttpPost]
-        public IActionResult UpdateDetail(int OrderID, int productID,
-            int quantity, decimal salePrice)
+        public IActionResult UpdateDetail(int OrderID, int ProductID,
+            int Quantity, decimal SalePrice)
         {
-            if(quantity <= 0)
+            if(Quantity <= 0)
             {
                 return Json("Số lượng bán không hợp lệ");
             }
-            if(salePrice < 0)
+            if(SalePrice < 0)
             {
                 return Json("Giá bán không hợp lệ");
             }
 
-            bool result = OrderDataService.SaveOrderDetail(OrderID, productID, quantity, salePrice);
+            bool result = OrderDataService.SaveOrderDetail(OrderID, ProductID, Quantity, SalePrice);
             if (!result)
             {
-                return Json("Không được phép thay đổi thông tin của đơn hàng này");
+                /*return Json("Không được phép thay đổi thông tin của đơn hàng này");*/
+                return Json("haha " + result + " hohoh");
             }
             return Json("");
         }

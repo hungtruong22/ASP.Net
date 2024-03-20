@@ -40,6 +40,11 @@ namespace SV20T1020390.BusinessLayers
             return orderDB.List(page, pageSize, status, fromTime, toTime, searchValue).ToList();
         }
 
+        public static List<OrderStatus> ListOfStatus(string searchValue = "")
+        {
+            return orderDB.ListOfStatus(1, 0, searchValue).ToList();
+        }
+
         /// <summary>
         /// Lấy thông tin của 1 đơn hàng
         /// </summary>

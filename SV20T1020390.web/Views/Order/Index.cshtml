@@ -9,7 +9,7 @@
         <form id="formSearch" action="~/Order/Search" method="get" data-container="#searchResult">
             <div class="row container-fluid">
                 <div class="col-sm-2">
-                    <select class="form-control" name="category">
+                    @* <select class="form-control" name="category">
                         <option value="0">-- Trạng thái --</option>
                         <option value="1">Đơn hàng mới (chờ duyệt)</option>
                         <option value="2">Đơn hàng đã duyệt (chờ chuyển hàng)</option>
@@ -17,7 +17,8 @@
                         <option value="4">Đơn hàng đã hoàn tất thành công</option>
                         <option value="-1">Đơn hàng bị hủy</option>
                         <option value="-2">Đơn hàng bị từ chối</option>
-                    </select>
+                    </select> *@
+                    @Html.DropDownListFor(m => m.Status, SelectListHelper.Statuses(), new { @class = "form-control" })
                 </div>
                 <div class="col-sm-2">
                     <input type="text" name="orderTime" class="form-control daterange-picker" placeholder="" />
@@ -43,7 +44,19 @@
 
 @section scripts {
     <script>
-        $(document).ready(function () {            
+        $(document).ready(function () {
+            $("#Status").change(function () {
+                doSearch("#formSearch", 1); // Gửi yêu cầu tìm kiếm khi giá trị thay đổi
+            });
+            $('.daterange-picker').on('change', function () {
+                var selectedValue = $(this).val();
+                console.log(selectedValue); // In ra giá trị đã chọn trong console
+                doSearch(this, 1);
+            });
+            // Hoặc lấy giá trị khi cần thiết
+           /* var inputValue = $('.daterange-picker').val();
+            console.log(inputValue); // In ra giá trị đã chọn trong console khi cần thiết
+            doSearch(this, 1); */
             $("#formSearch").submit(function (e) {
                 e.preventDefault();
                 doSearch(this, 1);

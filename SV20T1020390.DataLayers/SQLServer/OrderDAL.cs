@@ -159,7 +159,7 @@ namespace SV20T1020390.DataLayers.SQLServer
                 var parameters = new
             {
                 orderID = orderID,
-                ProducID = productID,
+                ProductID = productID,
             };
             data = connection.QueryFirstOrDefault<OrderDetail>(sql: sql, param: parameters, commandType: CommandType.Text);
             connection.Close();
@@ -303,6 +303,18 @@ namespace SV20T1020390.DataLayers.SQLServer
                 connection.Close();
             }
             return result;
+        }
+
+        public IList<OrderStatus> ListOfStatus(int page = 1, int pageSize = 0, string searchValue = "")
+        {
+            List<OrderStatus> list = new List<OrderStatus>();
+            using (var connection = OpenConnection())
+            {
+                var sql = @"select * from OrderStatus";
+                list = connection.Query<OrderStatus>(sql: sql, commandType: CommandType.Text).ToList();
+                connection.Close();
+            }
+            return list;
         }
     }
 }

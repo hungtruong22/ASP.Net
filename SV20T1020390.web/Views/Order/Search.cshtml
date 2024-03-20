@@ -14,7 +14,6 @@
                 <tr class="bg-primary">
                     <th>Khách hàng</th>
                     <th>Ngày lập</th>
-
                     <th>Nhân viên phụ trách</th>
                     <th>Thời điểm duyệt</th>
                     <th>Người giao hàng</th>
@@ -57,7 +56,8 @@
                 }
                 else
                 {
-                    <li><a href="~/Order?page=@p&searchValue=@Model.SearchValue">@p</a></li>
+                    @* <li><a href="~/Order?page=@p&searchValue=@Model.SearchValue">@p</a></li> *@
+                    <li><a href="javascript:;" onclick="doSearch('#formSearch', @p)">@p</a></li>
                 }
             }
         </ul>

@@ -97,5 +97,7 @@ namespace SV20T1020390.DataLayers
         /// <param name="productID"></param>
         /// <returns></returns>
         bool DeleteDetail(int orderID, int productID);
+
+        IList<OrderStatus> ListOfStatus(int page = 1, int pageSize = 0, string searchValue = "");
     }
 }

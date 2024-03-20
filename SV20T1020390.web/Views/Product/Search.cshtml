@@ -63,7 +63,8 @@
                 }
                 else
                 {
-                    <li><a href="~/Product?page=@p&searchValue=@Model.SearchValue">@p</a></li>
+                    @* <li><a href="~/Product?page=@p&searchValue=@Model.SearchValue">@p</a></li> *@
+                    <li><a href="javascript:;" onclick="doSearch('#formSearch', @p)">@p</a></li>
                 }
             }
         </ul>

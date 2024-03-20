@@ -50,7 +50,8 @@
                 }
                 else
                 {
-                    <li><a href="~/Shipper?page=@p&searchValue=@Model.SearchValue">@p</a></li>
+                    @* <li><a href="~/Shipper?page=@p&searchValue=@Model.SearchValue">@p</a></li> *@
+                    <li><a href="javascript:;" onclick="doSearch('#formSearch', @p)">@p</a></li>
                 }
             }
         </ul>
