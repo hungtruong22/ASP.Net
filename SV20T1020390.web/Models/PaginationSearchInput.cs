@@ -14,5 +14,7 @@
     { 
         public int CategoryID { get; set; }   
         public int SupplierID { get; set; }
+        public int CustomerID { get; set; }
+        public string DeliveryProvince { get; set; }
     }
 }

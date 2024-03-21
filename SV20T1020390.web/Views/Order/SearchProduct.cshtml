@@ -2,11 +2,12 @@
 @{
     Layout = null;
 }
+
+
 @foreach (var item in Model.Data)
 {
     <form class="formAddToCart" action="~/Order/AddToCart" method="post"
-          style="background-color:#fff;
-                     border:1px solid #ccc; margin:5px 0px 5px 0px; padding:5px;">
+          style="background-color:#fff;border:1px solid #ccc; margin:5px 0px 5px 0px; padding:5px;">
         <input type="hidden" name="ProductID" value="@item.ProductID" />
         <input type="hidden" name="ProductName" value="@item.ProductName" />
         <input type="hidden" name="Photo" value="@item.Photo" />

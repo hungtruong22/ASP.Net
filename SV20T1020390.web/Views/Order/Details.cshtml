@@ -132,8 +132,8 @@
                             <td>@Model.Details[i].ProductName</td>
                             <td class="text-center">@Model.Details[i].Unit</td>
                             <td class="text-center">@Model.Details[i].Quantity</td>
-                            <td class="text-right">@Model.Details[i].SalePrice</td>
-                            <td class="text-right">@Model.Details[i].TotalPrice</td>
+                            <td class="text-right">@Model.Details[i].SalePrice.ToString("N0")</td>
+                            <td class="text-right">@Model.Details[i].TotalPrice.ToString("N0")</td>
                             <td class="text-right">
                                 <a href="~/Order/EditDetail/@Model.Order.OrderID?productId=@Model.Details[i].ProductID" class="btn btn-xs btn-primary btn-modal">
                                     <i class="fa fa-edit"></i>
@@ -150,7 +150,7 @@
                 <tfoot>
                     <tr>
                         <th colspan="5" class="text-right">Tổng cộng:</th>
-                        <th class="text-right">@sum</th>
+                        <th class="text-right">@sum.ToString("N0")</th>
                         <th></th>
                     </tr>
                 </tfoot>

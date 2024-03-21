@@ -190,6 +190,18 @@ namespace SV20T1020390.DataLayers.SQLServer
             }
             return result;
         }
+
+        public List<Customer> ListCustomers(int page = 1, int pageSize = 0, string searchValue = "")
+        {
+            List<Customer> list = new List<Customer>();
+            using (var connection = OpenConnection())
+            {
+                string sql = @"select * from Customers";
+                list = connection.Query<Customer>(sql: sql, commandType: CommandType.Text).ToList();
+                connection.Close();
+            }
+            return list;
+        }
     }
 
     // ctrl + K + D : format code

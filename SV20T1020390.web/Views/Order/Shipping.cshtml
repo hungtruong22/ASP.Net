@@ -1,4 +1,5 @@
-﻿@{
+﻿@model SV20T1020390.web.Models.OrderDetailModel
+@{
     Layout = null;
 }
 
@@ -12,12 +13,14 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label class="control-label">Người giao hàng:</label>
-                    <select class="form-control" name="shipperID">
+                    @* <select class="form-control" name="shipperID">
                         <option value="0">-- Chọn người giao hàng ---</option>
                         <option value="1">Giao hàng Tiết kiệm</option>
                         <option value="2">Tín Thành</option>
                         <option value="3">Viettel Express</option>
-                    </select>
+                    </select> *@
+                    @Html.DropDownListFor(m => m.ShipperID, SelectListHelper.Shippers(), new { @class = "form-control" })
+
                 </div>
                 <div class="form-group">
                     <div class="col-md-offset-3 col-sm-9">
@@ -40,12 +43,11 @@
     $(document).ready(function () {
         $('#formShipping').submit(function (e) {
             e.preventDefault();
-
             var url = $(this).prop("action");
             var method = $(this).prop("method");
             var postData = $(this).serializeArray();
 
-            $ajax({
+            $.ajax({
                 url: url,
                 type: method,
                 data: postData,

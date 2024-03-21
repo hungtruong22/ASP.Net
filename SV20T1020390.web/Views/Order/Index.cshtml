@@ -21,7 +21,7 @@
                     @Html.DropDownListFor(m => m.Status, SelectListHelper.Statuses(), new { @class = "form-control" })
                 </div>
                 <div class="col-sm-2">
-                    <input type="text" name="orderTime" class="form-control daterange-picker" placeholder="" />
+                    <input type="text" name="@nameof(Model.DateRange)" value="@nameof(Model.DateRange)" class="form-control daterange-picker" placeholder="" id="dateRange" />
                 </div>
                 <div class="col-sm-8 input-group">
                     <input type="hidden" name="@nameof(Model.PageSize)" value="@Model.PageSize" />
@@ -45,14 +45,14 @@
 @section scripts {
     <script>
         $(document).ready(function () {
-            $("#Status").change(function () {
+            /*$("#Status").change(function () {
                 doSearch("#formSearch", 1); // Gửi yêu cầu tìm kiếm khi giá trị thay đổi
             });
-            $('.daterange-picker').on('change', function () {
+            $("dateRange").on('change', function () {
                 var selectedValue = $(this).val();
                 console.log(selectedValue); // In ra giá trị đã chọn trong console
-                doSearch(this, 1);
-            });
+                doSearch("#formSearch", 1); // Gửi yêu cầu tìm kiếm khi giá trị thay đổi
+            });*/
             // Hoặc lấy giá trị khi cần thiết
            /* var inputValue = $('.daterange-picker').val();
             console.log(inputValue); // In ra giá trị đã chọn trong console khi cần thiết
@@ -70,7 +70,11 @@
             var url = $(formSearchInput).prop("action");
             var container = $(formSearchInput).data("container");
             var postData = $(formSearchInput).serializeArray();
-            postData.push({ "name": "page", "value": page });
+            postData.push(
+                { "name": "page", "value": page },
+                { "name": "Status", "value": $('#Status').val() },
+                { "name": "DateRange", "value": $("#dateRange").val() }
+            );
             $.ajax({
                 url: url,
                 type: "POST",

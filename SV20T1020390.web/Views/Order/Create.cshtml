@@ -5,14 +5,13 @@
 
 <div class="box box-primary">
     <div class="box-body">
-
         <!-- Tìm kiếm, hiển thị và chọn hàng đưa vào giỏ -->
         <div class="col-md-4">
             <!-- Form tìm kiếm mặt hàng -->
             <h4>Lựa chọn hàng cần bán</h4>
-            <form id="formSearch" action="~/Order/SearchProduct" method="get"
-                  data-container="#searchResult">
-                @Html.HiddenFor(m => m.PageSize)
+            <form id="formSearch" action="~/Order/SearchProduct"
+                  method="get" data-container="#searchResult">
+                <input type="hidden" name="@nameof(Model.PageSize)" value="@Model.PageSize" />
                 <div class="input-group">
                     <input type="text" name="@nameof(Model.SearchValue)"
                            class="form-control"
@@ -24,15 +23,14 @@
                     </span>
                 </div>
             </form>
-
-            <!-- Nơi sử dụng để hiển thị danh sách mặt hàng timg được -->
-            <div id="searchRéult"></div>
-            <div class="col-md-8">
-                <!-- Hiển thị danh sách các mặt hàng trong giỏ -->
-                <h4>Danh sách mặt hàng đã chọn</h4>
-                <div id="shoppingCart"></div>
+            <!-- Nơi sử dụng để hiển thị danh sách mặt hàng tìm được -->
+            <div id="searchResult">
             </div>
-
+        </div>
+        <div class="col-md-8">
+            <!-- Hiển thị danh sách các mặt hàng trong giỏ hàng -->
+            <h4>Danh sách mặt hàng đã chọn</h4>
+            <div id="shoppingCart"></div>
             <!-- Form nhập thông tin về khách hàng, nơi giao hàng và khởi tạo đơn hàng -->
             <form id="formOrderInit" action="~/Order/Init"
                   method="post" class="form-horizontal">
@@ -40,23 +38,25 @@
                 <div class="form-group">
                     <label class="control-label col-sm-2">Khách hàng:</label>
                     <div class="col-sm-10">
-                        <select class="form-control" name="customerID">
+                        @*  <select class="form-control" name="customerID">
                             <option value="0">-- Chọn khách hàng --</option>
                             <option value="4251">Lê Thị Như</option>
                             <option value="4252">Đinh Thị Hoa</option>
                             <option value="4253">Lê Văn Công</option>
-                        </select>
+                        </select>  *@
+                        @Html.DropDownListFor(m => m.CustomerID, SelectListHelper.Customners(), new { @class = "form-control" })
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="control-label col-sm-2">Tỉnh/thành:</label>
                     <div class="col-sm-10">
-                        <select class="form-control" name="deliveryProvince">
+                        @* <select class="form-control" name="deliveryProvince">
                             <option value="">-- Chọn tỉnh/thành --</option>
                             <option value="Thừa Thiên Huế">Thừa Thiên Huế</option>
                             <option value="Đà Nẵng">Đà Nẵng</option>
                             <option value="Quảng Nam">Quảng Nam</option>
-                        </select>
+                        </select> *@
+                        @Html.DropDownListFor(m => m.DeliveryProvince, SelectListHelper.Provinces(), new { @class = "form-control" })
                     </div>
                 </div>
                 <div class="form-group">
@@ -68,139 +68,6 @@
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
                         <span id="orderInitMessage" style="color:#f00"></span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-12 text-right">
-                        <button type="submit" class="btn btn-sm btn-primary">
-                            <i class="fa fa-plus-circle"></i> Lập đơn hàng
-                        </button>
-                    </div>
-                </div>
-            </form>
-
-            <div>
-                <!-- Hiển thị danh sách mặt hàng tìm được -->
-                @for (int i = 1; i <= 5; i++)
-                {
-                    <form action="#" method="post" style="background-color:#fff; border:1px solid #ccc; margin:5px 0px 5px 0px; padding:5px;">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <strong>Macbook Pro 15" M2 2023</strong>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <img class="img img-responsive img-bordered" src="~/images/products/macbook_pro.png">
-                            </div>
-                            <div class="col-sm-9">
-                                <div class="form-group-sm">
-                                    <div class="row">
-                                        <div class="col-md-7">
-                                            <label>Giá bán:</label>
-                                            <input class="form-control" type="text" value="45,000,000" name="SalePrice" />
-                                        </div>
-                                        <div class="col-md-5">
-                                            <label>Số lượng:</label>
-                                            <input class="form-control" type="number" value="1" min="1" name="Quantity" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group-sm" style="margin-top:2px;">
-                                    <button type="submit" class="btn btn-sm btn-primary">
-                                        <i class="fa fa-shopping-cart"></i> Thêm vào giỏ
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                }
-
-                <ul class="pager">
-                    <li class="previous"><a href="#"><i class="fa fa-backward"></i></a></li>
-                    <li class="next"><a href="#"><i class="fa fa-forward"></i></a></li>
-                </ul>
-
-            </div>
-        </div>
-
-        <!-- Thông tin giỏ hàng, khách hàng -->
-        <div class="col-md-8">
-            <!-- Giỏ hàng -->
-            <h4>Danh sách mặt hàng đã chọn</h4>
-            <table class="table table-bordered table-striped table-hover">
-                <thead>
-                    <tr class="bg-primary">
-                        <th class="text-center">STT</th>
-                        <th class="text-center">Tên hàng</th>
-                        <th class="text-center">ĐVT</th>
-                        <th class="text-center">Số lượng</th>
-                        <th class="text-center">Giá</th>
-                        <th class="text-center">Thành tiền</th>
-                        <th style="width:40px"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @for (int i = 1; i < 3; i++)
-                    {
-                        <tr>
-                            <td class="text-center">@i</td>
-                            <td>Laptop HP Gaming VICTUS 16 e1105AX R5 6600H (7C0T0PA)</td>
-                            <td class="text-center">Bộ</td>
-                            <td class="text-center">1</td>
-                            <td class="text-right">23,990,000</td>
-                            <td class="text-right">23,990,000</td>
-                            <td class="text-right">
-                                <a href="~/Order/RemoveFromCart/123" class="btn btn-xs btn-danger">
-                                    <i class="fa fa-minus"></i>
-                                </a>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <th colspan="5" class="text-right">Tổng cộng:</th>
-                        <th class="text-right">71,970,000</th>
-                        <th></th>
-                    </tr>
-                </tfoot>
-            </table>
-            <div class="text-right">
-                <a href="~/Order/ClearCart" class="btn btn-sm btn-danger" onclick="return confirm('Có muốn xóa giỏ hàng không?')">
-                    <i class="fa fa-trash"></i> Xóa giỏ hàng
-                </a>
-            </div>
-
-            <!-- Nhập khách hàng, nhân viên phụ trách và khởi tạo đơn hàng -->
-            <form action="~/Order/Init" method="post" class="form-horizontal">
-                <h4>Thông tin về khách hàng và địa chỉ giao hàng</h4>
-                <div class="form-group">
-                    <label class="control-label col-sm-2">Khách hàng:</label>
-                    <div class="col-sm-10">
-                        <select class="form-control" name="customerID">
-                            <option value="0">-- Chọn khách hàng --</option>
-                            <option value="1">Trần Nguyên Phong</option>
-                            <option value="2">Nguyễn Hoàng Hà</option>
-                            <option value="3">Nguyễn Ngọc Thủy</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="control-label col-sm-2">Tỉnh/thành:</label>
-                    <div class="col-sm-10">
-                        <select class="form-control" name="deliveryProvince">
-                            <option value="0">-- Chọn tỉnh/thành --</option>
-                            <option value="Thừa Thiên Huế">Thừa Thiên Huế</option>
-                            <option value="Đà Nẵng">Đà Nẵng</option>
-                            <option value="Quảng Nam">Quảng Nam</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="control-label col-sm-2">Địa chỉ nhận hàng:</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" name="deliveryAddress" />
                     </div>
                 </div>
                 <div class="form-group">
@@ -248,40 +115,39 @@
                 return;
             });
             doSearch("#formSearch", @Model.Page);
-        showShoppingCart();
-    });
-    function doSearch(formSearch, page) {
-        var action = $(formSearch).prop("action");
-        var method = $(formSearch).prop("method");
-        var container = $(formSearch).data("container");
-        var searchData = $(formSearch).serializeArray();
-        searchData.push({ "name": "Page", "value": page });
-        $.ajax({
-            url: action,
-            type: method,
-            data: searchData,
-            async: false,
-            error: function () {
-                alert("Your request is not valid!");
-            },
-            success: function (data) {
-                $(container).html(data);
-            }
+            showShoppingCart();
         });
-    }
-    function showShoppingCart() {
-        $.ajax({
-            url: "/Order/ShowShoppingCart",
-            type: "GET",
-            async: false,
-            error: function () {
-                alert("Your request is not valid!");
-            },
-            success: function (data) {
-                $("#shoppingCart").html(data);
-            }
-        });
-    }
-</script>
+        function doSearch(formSearch, page) {
+            var action = $(formSearch).prop("action");
+            var method = $(formSearch).prop("method");
+            var container = $(formSearch).data("container");
+            var searchData = $(formSearch).serializeArray();
+            searchData.push({ "name": "Page", "value": page });
+            $.ajax({
+                url: action,
+                type: method,
+                data: searchData,
+                async: false,
+                error: function () {
+                    alert("Your request is not valid!");
+                },
+                success: function (data) {
+                    $(container).html(data);
+                }
+            });
+        }
+        function showShoppingCart() {
+            $.ajax({
+                url: "/Order/ShowShoppingCart",
+                type: "GET",
+                async: false,
+                error: function () {
+                    alert("Your request is not valid!");
+                },
+                success: function (data) {
+                    $("#shoppingCart").html(data);
+                }
+            });
+        }
+    </script>
 }
-
