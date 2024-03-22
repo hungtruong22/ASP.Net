@@ -4,6 +4,7 @@ using SV20T1020390.BusinessLayers;
 using SV20T1020390.DomainModels;
 using SV20T1020390.web.AppCodes;
 using SV20T1020390.web.Models;
+using System.Reflection;
 
 namespace SV20T1020390.web.Controllers
 {
@@ -313,7 +314,7 @@ namespace SV20T1020390.web.Controllers
         /// <returns></returns>
         
         [HttpGet]         
-        public IActionResult EditDetail(int id = 0, int productId = 0)
+        public IActionResult Detail(int id = 0, int productId = 0)
         {
             var model = OrderDataService.GetOrderDetail(id, productId);
             return View(model);
@@ -380,6 +381,20 @@ namespace SV20T1020390.web.Controllers
             return View();
         }
 
+        [HttpGet]
+        public IActionResult ChangeProvince(int id = 0)
+        {
+            ViewBag.OrderID = id;
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult ChangeAddress(int id = 0)
+        {
+            ViewBag.OrderID = id;
+            return View();
+        }
+
         /// <summary>
         /// Ghi nhận người giao hàng cho đơn hàng và chuyển đơn hàng sang trạng thái đang giao hàng
         /// Hàm trả về chuỗi khác rỗng thông báo lỗi nếu đầu vào không hợp lệ hoặc lỗi,
@@ -403,6 +418,61 @@ namespace SV20T1020390.web.Controllers
             }
             return Json("");
         }
-        
+
+        /*[HttpPost]
+        public IActionResult ChangeProvince(int id = 0, string deliveryProvince = "")
+        {
+            if (string.IsNullOrWhiteSpace(deliveryProvince))
+            {
+                return Json("Vui lòng chọn Tỉnh/Thành");
+            }
+
+            bool result = OrderDataService.ChangeProvince(id, deliveryProvince);
+            if (!result)
+            {
+                return Json("Đơn hàng không cho phép chuyển cho người giao hàng");
+            }
+            return Json("");
+        }
+
+        [HttpPost]
+        public IActionResult ChangeAddress(int id = 0, string deliveryAddress = "")
+        {
+            if (string.IsNullOrWhiteSpace(deliveryAddress))
+            {
+                return Json("Vui lòng chọn địa chỉ giao hàng");
+            }
+
+            bool result = OrderDataService.ChangeAddress(id, deliveryAddress);
+            if (!result)
+            {
+                return Json("Đơn hàng không cho phép chuyển cho người giao hàng");
+            }
+            return Json("");
+        }*/
+
+        [HttpPost]
+        public IActionResult ChangeAddressAndProvince(int id = 0,
+            string deliveryAddress = "", string deliveryProvince = "")
+        {
+            if (string.IsNullOrWhiteSpace(deliveryAddress))
+            {
+                /*return Json("Vui lòng chọn địa chỉ giao hàng");*/
+                TempData["Message"] = "Vui lòng chọn địa chỉ giao hàng";
+            }
+            if (string.IsNullOrWhiteSpace(deliveryProvince))
+            {
+                /*return Json("Vui lòng chọn địa chỉ giao hàng");*/
+                TempData["Message"] = "Vui lòng chọn Tỉnh/Thành";
+            }
+
+            bool result = OrderDataService.ChangeAddressAndProvince(id, deliveryAddress, deliveryProvince);
+            if (!result)
+            {
+                TempData["Message"] = "Đơn hàng không cho phép chuyển cho người giao hàng";
+            }
+            return RedirectToAction("Details", new {id = id});
+        }
+
     }
 }
