@@ -64,7 +64,6 @@
                 <a href="~/Order/Delete/@Model.Order.OrderID" class="btn btn-sm btn-danger" onclick="return confirm('Có chắc chắn muốn xóa đơn hàng này không?')"><i class="fa fa-trash"></i> Xóa đơn hàng</a>
             }
             <a href="~/Order" class="btn btn-sm btn-info">Quay lại</a>
-            <h2>@Model.Order.Status</h2>
         </div>
     </div>
     <div class="box-body form-horizontal">
@@ -111,41 +110,56 @@
         </div>
 
         <div class="form-group">
-            <form id="formChange" method="post"
-                  action="~/Order/ChangeAddressAndProvince/@Model.Order.OrderID">
+            @if(Model.Order.Status == 1 || Model.Order.Status == 2)
+            {
+                <form id="formChange" method="post"
+                      action="~/Order/ChangeAddressAndProvince/@Model.Order.OrderID">
+                    @Html.HiddenFor(m => m.Order.OrderID)
+                    <label class="control-label col-sm-2">Địa chỉ giao hàng:</label>
+                    <div class="col-sm-10">
+                        @* <p class="form-control-static">@Model.Order.DeliveryAddress</p> *@
+                        <input type="text" class="form-control"
+                               name="@nameof(Model.Order.DeliveryAddress)" value="@Model.Order.DeliveryAddress">
+                    </div>
+                    <label class="control-label col-sm-2" style="margin-top: 8px">Tỉnh/thành:</label>
+                    <div class="col-sm-10" style="margin-top: 8px">
+                        @* <p class="form-control-static">@Model.Order.DeliveryProvince</p> *@
+                        @* @Html.DropDownListFor(m => m.Order.DeliveryProvince, SelectListHelper.Provinces(), new { @class = "form-control" }) *@
+                        <select class="form-control col-2" name="deliveryProvince">
+                            <option value="">-- Chọn tỉnh/thành --</option>
+
+                            @foreach (var item in SV20T1020390.BusinessLayers.CommonDataService.ListOfProvinces())
+                            {
+                                if (item.ProvinceName == Model.Order.DeliveryProvince)
+                                {
+                                    <option value="@item.ProvinceName" selected>@item.ProvinceName</option>
+                                }
+                                else
+                                {
+                                    <option value="@item.ProvinceName">@item.ProvinceName</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="col-sm-10">
+                        <button type="submit" class="btn btn-primary" style="margin-left: 211px; margin-top: 8px">
+                            <i class="fa fa-floppy-o"></i> Cập nhật
+                        </button>
+                    </div>
+                </form>
+            }
+            else
+            {
                 @Html.HiddenFor(m => m.Order.OrderID)
                 <label class="control-label col-sm-2">Địa chỉ giao hàng:</label>
                 <div class="col-sm-10">
-                    @* <p class="form-control-static">@Model.Order.DeliveryAddress</p> *@
-                    <input type="text" class="form-control"
-                           name="@nameof(Model.Order.DeliveryAddress)" value="@Model.Order.DeliveryAddress">
+                    <p class="form-control-static">@Model.Order.DeliveryAddress</p>
                 </div>
-                <label class="control-label col-sm-2">Tỉnh/thành:</label>
+                <label class="control-label col-sm-2" style="margin-top: 8px">Tỉnh/thành:</label>
                 <div class="col-sm-10">
-                    @* <p class="form-control-static">@Model.Order.DeliveryProvince</p> *@
-                    @* @Html.DropDownListFor(m => m.Order.DeliveryProvince, SelectListHelper.Provinces(), new { @class = "form-control" }) *@
-                    <select class="form-control col-2" name="deliveryProvince">
-                        <option value="">-- Chọn tỉnh/thành --</option>
-
-                        @foreach (var item in SV20T1020390.BusinessLayers.CommonDataService.ListOfProvinces())
-                        {
-                            if (item.ProvinceName == Model.Order.DeliveryProvince)
-                            {
-                                <option value="@item.ProvinceName" selected>@item.ProvinceName</option>
-                            }
-                            else
-                            {
-                                <option value="@item.ProvinceName">@item.ProvinceName</option>
-                            }
-                        }
-                    </select>
+                    <p class="form-control-static" style="margin-top: 8px">@Model.Order.DeliveryProvince</p>
                 </div>
-                <div class="col-sm-10">
-                    <button type="submit" class="btn btn-primary" style="margin-left: 50px">
-                        <i class="fa fa-floppy-o"></i> Cập nhật
-                    </button>
-                </div>
-            </form>
+            }
         </div>
 
         <div class="form-group">

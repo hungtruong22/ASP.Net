@@ -76,7 +76,7 @@ namespace SV20T1020390.web.Controllers
             var model = new Product()
             {
                 ProductID = 0,
-                Photo = "qbv.png",
+                Photo = "notphoto.png",
             };
             return View("Edit", model);
         }
@@ -92,7 +92,7 @@ namespace SV20T1020390.web.Controllers
             }
             if (string.IsNullOrWhiteSpace(model.Photo))
             {
-                model.Photo = "qbv.png";
+                model.Photo = "notphoto.png";
             }
             return View(model);
         }
@@ -137,6 +137,10 @@ namespace SV20T1020390.web.Controllers
             if (string.IsNullOrWhiteSpace(model.Price.ToString()))
             {
                 ModelState.AddModelError(nameof(model.Price), "Giá hàng không được để trống");
+            }
+            if(model.Price <= 0)
+            {
+                ModelState.AddModelError(nameof(model.Price), "Giá hàng không được <= 0");
             }
             List<Product> list
                 = ProductDataService.ListProducts("");
@@ -379,7 +383,7 @@ namespace SV20T1020390.web.Controllers
             if (model.AttributeID == 0)
             {
                 long id = ProductDataService.AddAttribute(model);
-                if (id <= 0)
+                if (id < 0)
                 {
                     ModelState.AddModelError(nameof(model.AttributeName), "Tên thuộc tính bị trùng");
                     ViewBag.Title = CREATE_TITLE;

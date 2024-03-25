@@ -7,61 +7,71 @@
 }
 
 <div>
-    <p style="margin: 10px 0 10px 0">
-        Có <strong>@Model.RowCount</strong> nhà cung cấp trong số <strong>@Model.PageCount</strong> trang
-    </p>
-    <div class="table-responsive">
-        <table class="table table-bordered table-hover table-striped">
-            <thead>
-                <tr class="bg-primary">
-                    <th>Tên nhà cung cấp</th>
-                    <th>Tên giao dịch</th>
-                    <th>Điện thoại</th>
-                    <th>Email</th>
-                    <th>Địa chỉ</th>
-                    <th>Tỉnh/Thành</th>
-                    <th style="width: 80px"></th>
+    @if(Model.RowCount > 0)
+    {
+        <p style="margin: 10px 0 10px 0">
+            Có <strong>@Model.RowCount</strong> nhà cung cấp trong số <strong>@Model.PageCount</strong> trang
+        </p>
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover table-striped">
+                <thead>
+                    <tr class="bg-primary">
+                        <th>Tên nhà cung cấp</th>
+                        <th>Tên giao dịch</th>
+                        <th>Điện thoại</th>
+                        <th>Email</th>
+                        <th>Địa chỉ</th>
+                        <th>Tỉnh/Thành</th>
+                        <th style="width: 80px"></th>
 
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model.Data)
-                {
-                    <tr>
-                        <td>@item.SupplierName</td>
-                        <td>@item.ContactName</td>
-                        <td>@item.Phone</td>
-                        <td>@item.Email</td>
-                        <td>@item.Address</td>
-                        <td>@item.Province</td>
-                        <td class="text-right">
-                            <a href="~/Supplier/Edit/@item.SupplierID" class="btn btn-xs btn-info">
-                                <i class="fa fa-edit"></i>
-                            </a>
-                            <a href="~/Supplier/Delete/@item.SupplierID" class="btn btn-xs btn-danger">
-                                <i class="fa fa-remove"></i>
-                            </a>
-                        </td>
                     </tr>
-                }
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Data)
+                    {
+                        <tr>
+                            <td>@item.SupplierName</td>
+                            <td>@item.ContactName</td>
+                            <td>@item.Phone</td>
+                            <td>@item.Email</td>
+                            <td>@item.Address</td>
+                            <td>@item.Province</td>
+                            <td class="text-right">
+                                <a href="~/Supplier/Edit/@item.SupplierID" class="btn btn-xs btn-info">
+                                    <i class="fa fa-edit"></i>
+                                </a>
+                                <a href="~/Supplier/Delete/@item.SupplierID" class="btn btn-xs btn-danger">
+                                    <i class="fa fa-remove"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
 
-            </tbody>
-        </table>
-    </div>
-    <div class="text-center">
-        <ul class="pagination">
-            @for (int p = 1; p <= Model.PageCount; p++)
-            {
-                if (Model.Page == p)
+                </tbody>
+            </table>
+        </div>
+        <div class="text-center">
+            <ul class="pagination">
+                @for (int p = 1; p <= Model.PageCount; p++)
                 {
-                    <li class="active"><a href="#">@p</a></li>
+                    if (Model.Page == p)
+                    {
+                        <li class="active"><a href="#">@p</a></li>
+                    }
+                    else
+                    {
+                        @* <li><a href="~/Supplier?page=@p&searchValue=@Model.SearchValue">@p</a></li> *@
+                        <li><a href="javascript:;" onclick="doSearch('#formSearch', @p)">@p</a></li>
+                    }
                 }
-                else
-                {
-                    @* <li><a href="~/Supplier?page=@p&searchValue=@Model.SearchValue">@p</a></li> *@
-                    <li><a href="javascript:;" onclick="doSearch('#formSearch', @p)">@p</a></li>
-                }
-            }
-        </ul>
-    </div>
+            </ul>
+        </div>
+    }
+    else
+    {
+        <div>
+            <h3>Không tìm thấy nhà cung cấp cần tìm!</h3>
+            <h4>Vui lòng thử lại.</h4>
+        </div>
+    }
 </div>

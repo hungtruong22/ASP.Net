@@ -72,7 +72,7 @@ namespace SV20T1020390.web.Controllers
             {
                 EmployeeID = 0,
                 Photo = "nophoto.png",
-                BirthDate = new DateTime(1900, 01, 01),
+                BirthDate = new DateTime(1990, 01, 01),
                 /*IsWorking = true*/
             };
             return View("Edit", model);
@@ -88,6 +88,7 @@ namespace SV20T1020390.web.Controllers
             {
                 ModelState.AddModelError(nameof(model.Phone), "Số điện thoại không được để trống");
             }
+
             if (string.IsNullOrWhiteSpace(model.Email))
             {
                 ModelState.AddModelError(nameof(model.Email), "Email không được để trống");
@@ -104,7 +105,7 @@ namespace SV20T1020390.web.Controllers
             }
 
             // xử lý ngày sinh
-            DateTime? d = birthDateInput.ToDateTime(birthDateInput);
+            DateTime? d = birthDateInput.ToDateTime();
             if(d.HasValue)
             {
                 model.BirthDate = d.Value;

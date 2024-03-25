@@ -381,19 +381,6 @@ namespace SV20T1020390.web.Controllers
             return View();
         }
 
-        [HttpGet]
-        public IActionResult ChangeProvince(int id = 0)
-        {
-            ViewBag.OrderID = id;
-            return View();
-        }
-
-        [HttpGet]
-        public IActionResult ChangeAddress(int id = 0)
-        {
-            ViewBag.OrderID = id;
-            return View();
-        }
 
         /// <summary>
         /// Ghi nhận người giao hàng cho đơn hàng và chuyển đơn hàng sang trạng thái đang giao hàng
@@ -419,38 +406,6 @@ namespace SV20T1020390.web.Controllers
             return Json("");
         }
 
-        /*[HttpPost]
-        public IActionResult ChangeProvince(int id = 0, string deliveryProvince = "")
-        {
-            if (string.IsNullOrWhiteSpace(deliveryProvince))
-            {
-                return Json("Vui lòng chọn Tỉnh/Thành");
-            }
-
-            bool result = OrderDataService.ChangeProvince(id, deliveryProvince);
-            if (!result)
-            {
-                return Json("Đơn hàng không cho phép chuyển cho người giao hàng");
-            }
-            return Json("");
-        }
-
-        [HttpPost]
-        public IActionResult ChangeAddress(int id = 0, string deliveryAddress = "")
-        {
-            if (string.IsNullOrWhiteSpace(deliveryAddress))
-            {
-                return Json("Vui lòng chọn địa chỉ giao hàng");
-            }
-
-            bool result = OrderDataService.ChangeAddress(id, deliveryAddress);
-            if (!result)
-            {
-                return Json("Đơn hàng không cho phép chuyển cho người giao hàng");
-            }
-            return Json("");
-        }*/
-
         [HttpPost]
         public IActionResult ChangeAddressAndProvince(int id = 0,
             string deliveryAddress = "", string deliveryProvince = "")
@@ -471,7 +426,18 @@ namespace SV20T1020390.web.Controllers
             {
                 TempData["Message"] = "Đơn hàng không cho phép chuyển cho người giao hàng";
             }
+            if (result)
+            {
+                TempData["Message"] = "Cập nhật thành công";
+            }
             return RedirectToAction("Details", new {id = id});
+        }
+
+        [HttpGet]
+        public IActionResult EditDetail(int id = 0, int productID = 0)
+        {
+            var model = OrderDataService.GetOrderDetail(id, productID);
+            return View(model);
         }
 
     }

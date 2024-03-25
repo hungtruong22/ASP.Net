@@ -183,9 +183,8 @@ namespace SV20T1020390.BusinessLayers
             Order? data = orderDB.Get(orderID);
             if (data == null)
                 return false;
-            if (data.Status == Constants.ORDER_ACCEPTED || data.Status == Constants.ORDER_SHIPPING)
+            if (data.Status == Constants.ORDER_ACCEPTED || data.Status == Constants.ORDER_INIT)
             {
-                data.Status = Constants.ORDER_SHIPPING;
                 data.DeliveryAddress = deliveryAddress;
                 data.DeliveryProvince = deliveryProvince;
                 data.ShippedTime = DateTime.Now;

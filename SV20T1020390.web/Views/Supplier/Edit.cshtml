@@ -38,7 +38,7 @@
 
             <div class="form-group">
                 <label>Địa chỉ:</label>
-                <input type="text" class="form-control" name="@nameof(Model.Address)" value="@Model.Address">
+                @* <input type="text" class="form-control" name="@nameof(Model.Address)" value="@Model.Address"> *@
                 @Html.TextBoxFor(m => m.Address, new { @class = "form-control",})
                 @Html.ValidationMessage(nameof(Model.Address), new { @style = "color: #f00" })
             </div>

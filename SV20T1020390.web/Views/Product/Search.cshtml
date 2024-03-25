@@ -6,67 +6,77 @@
     Layout = null;
 }
 <div>
-    <p style="margin: 10px 0 10px 0">
-        Có <strong>@Model.RowCount</strong> mặt hàng trong số <strong>@Model.PageCount</strong> trang
-    </p>
-    <div class="table-responsive">
-        <table class=" table table-bordered table-hover table-striped">
-            <!--Header-->
-            <thead>
-                <tr class="bg-primary">
-                    <th style="width: 80px"> Ảnh</th>
-                    <th style="width: auto">Tên mặt hàng</th>
-                    <th style="width: 100px">Đơn vị tính</th>
-                    <th style="width: 120px">Giá</th>
-                    <th style="width: 100px">Ngừng bán</th>
-                    <th style="width:80px"></th>
-                </tr>
-            </thead>
-
-            <!--Body-->
-            <tbody>
-                @foreach (var item in Model.Data)
-                {
-                    <tr>
-                        <td>
-                            <img style="width: 100%" src="~/images/products/@item.Photo" alt="Ảnh" />
-                        </td>
-
-                        <td>
-                            @item.ProductName <br>
-                            <i>@item.ProductDescription</i>
-                        </td>
-                        <td>@item.Unit</td>
-                        <td>@item.Price</td>
-                        <td>@(item.IsSelling ? "Không" : "Ngừng bán")</td>
-                        <td class="text-right">
-                            <a href="~/Product/Edit/@item.ProductID" class="btn btn-xs btn-info">
-                                <i class="fa fa-edit"></i>
-                            </a>
-                            <a href="~/Product/Delete/@item.ProductID" class="btn btn-xs btn-danger">
-                                <i class="fa fa-remove"></i>
-                            </a>
-                        </td>
+    @if(Model.RowCount > 0)
+    {
+        <p style="margin: 10px 0 10px 0">
+            Có <strong>@Model.RowCount</strong> mặt hàng trong số <strong>@Model.PageCount</strong> trang
+        </p>
+        <div class="table-responsive">
+            <table class=" table table-bordered table-hover table-striped">
+                <!--Header-->
+                <thead>
+                    <tr class="bg-primary">
+                        <th style="width: 80px"> Ảnh</th>
+                        <th style="width: auto">Tên mặt hàng</th>
+                        <th style="width: 100px">Đơn vị tính</th>
+                        <th style="width: 120px">Giá</th>
+                        <th style="width: 100px">Ngừng bán</th>
+                        <th style="width:80px"></th>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
 
-    </div>
-    <div class="text-center">
-        <ul class="pagination">
-            @for (int p = 1; p <= Model.PageCount; p++)
-            {
-                if (Model.Page == p)
+                <!--Body-->
+                <tbody>
+                    @foreach (var item in Model.Data)
+                    {
+                        <tr>
+                            <td>
+                                <img style="width: 100%" src="~/images/products/@item.Photo" alt="Ảnh" />
+                            </td>
+
+                            <td>
+                                @item.ProductName <br>
+                                <i>@item.ProductDescription</i>
+                            </td>
+                            <td>@item.Unit</td>
+                            <td>@item.Price</td>
+                            <td>@(item.IsSelling ? "Không" : "Ngừng bán")</td>
+                            <td class="text-right">
+                                <a href="~/Product/Edit/@item.ProductID" class="btn btn-xs btn-info">
+                                    <i class="fa fa-edit"></i>
+                                </a>
+                                <a href="~/Product/Delete/@item.ProductID" class="btn btn-xs btn-danger">
+                                    <i class="fa fa-remove"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>
+        <div class="text-center">
+            <ul class="pagination">
+                @for (int p = 1; p <= Model.PageCount; p++)
                 {
-                    <li class="active"><a href="#">@p</a></li>
+                    if (Model.Page == p)
+                    {
+                        <li class="active"><a href="#">@p</a></li>
+                    }
+                    else
+                    {
+                        @* <li><a href="~/Product?page=@p&searchValue=@Model.SearchValue">@p</a></li> *@
+                        <li><a href="javascript:;" onclick="doSearch('#formSearch', @p)">@p</a></li>
+                    }
                 }
-                else
-                {
-                    @* <li><a href="~/Product?page=@p&searchValue=@Model.SearchValue">@p</a></li> *@
-                    <li><a href="javascript:;" onclick="doSearch('#formSearch', @p)">@p</a></li>
-                }
-            }
-        </ul>
-    </div>
+            </ul>
+        </div>
+    }
+    else
+    {
+        <div>
+            <h3>Không tìm thấy mặt hàng cần tìm!</h3>
+            <h4>Vui lòng thử lại.</h4>
+        </div>
+    }
 </div>

@@ -4,67 +4,77 @@
 }
 
 <div>
-    <p style="margin: 10px 0 10px 0">
-        Có <strong>@Model.RowCount</strong> nhân viên trong số <strong>@Model.PageCount</strong> trang
-    </p>
-    <div class="row">
-        @foreach (var item in Model.Data)
-        {
-            <div class="col-sm-4">
-                <div class="box box-info">
-
-                    <div class="box-header with-border">
-                        <h3 class="box-title">@item.FullName</h3>
-                        <div class="box-tools pull-right">
-                            <a class="btn btn-box-tool" href="~/Employee/Edit/@item.EmployeeID">
-                                <i class="fa fa-edit text-primary"></i>
-                            </a>
-                            <a class="btn btn-box-tool" href="~/Employee/Delete/@item.EmployeeID">
-                                <i class="fa fa-trash text-danger"></i>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="box-body">
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <img class="profile-user-img img-responsive img-bordered" src="~/images/employees/@item.Photo">
-                            </div>
-                            <div class="col-sm-9">
-                                <ul class="list-group list-group-unbordered">
-                                    <li class="list-group-item">
-                                        <i class="fa fa-birthday-cake"></i> @item.BirthDate.ToString("dd/MM/yyyy", new System.Globalization.CultureInfo("en-GB"))
-                                    </li>
-                                    <li class="list-group-item">
-                                        <i class="fa fa-phone"></i> @item.Phone
-                                    </li>
-                                    <li class="list-group-item">
-                                        <i class="fa fa-envelope"></i> @item.Email
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /.box-body -->
-                </div>
-            </div>
-        }
-
-    </div>
-    <div class="text-center">
-        <ul class="pagination">
-            @for (int p = 1; p <= Model.PageCount; p++)
+    @if(Model.RowCount > 0)
+    {
+        <p style="margin: 10px 0 10px 0">
+            Có <strong>@Model.RowCount</strong> nhân viên trong số <strong>@Model.PageCount</strong> trang
+        </p>
+        <div class="row">
+            @foreach (var item in Model.Data)
             {
-                if (Model.Page == p)
-                {
-                    <li class="active"><a href="#">@p</a></li>
-                }
-                else
-                {
-                    @* <li><a href="~/Employee?page=@p&searchValue=@Model.SearchValue">@p</a></li> *@
-                    <li><a href="javascript:;" onclick="doSearch('#formSearch', @p)">@p</a></li>
-                }
+                <div class="col-sm-4">
+                    <div class="box box-info">
+
+                        <div class="box-header with-border">
+                            <h3 class="box-title">@item.FullName</h3>
+                            <div class="box-tools pull-right">
+                                <a class="btn btn-box-tool" href="~/Employee/Edit/@item.EmployeeID">
+                                    <i class="fa fa-edit text-primary"></i>
+                                </a>
+                                <a class="btn btn-box-tool" href="~/Employee/Delete/@item.EmployeeID">
+                                    <i class="fa fa-trash text-danger"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="box-body">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <img class="profile-user-img img-responsive img-bordered" src="~/images/employees/@item.Photo">
+                                </div>
+                                <div class="col-sm-9">
+                                    <ul class="list-group list-group-unbordered">
+                                        <li class="list-group-item">
+                                            <i class="fa fa-birthday-cake"></i> @item.BirthDate.ToString("dd/MM/yyyy", new System.Globalization.CultureInfo("en-GB"))
+                                        </li>
+                                        <li class="list-group-item">
+                                            <i class="fa fa-phone"></i> @item.Phone
+                                        </li>
+                                        <li class="list-group-item">
+                                            <i class="fa fa-envelope"></i> @item.Email
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                </div>
             }
-        </ul>
-    </div>
+
+        </div>
+        <div class="text-center">
+            <ul class="pagination">
+                @for (int p = 1; p <= Model.PageCount; p++)
+                {
+                    if (Model.Page == p)
+                    {
+                        <li class="active"><a href="#">@p</a></li>
+                    }
+                    else
+                    {
+                        @* <li><a href="~/Employee?page=@p&searchValue=@Model.SearchValue">@p</a></li> *@
+                        <li><a href="javascript:;" onclick="doSearch('#formSearch', @p)">@p</a></li>
+                    }
+                }
+            </ul>
+        </div>
+    }
+    else
+    {
+        <div>
+            <h3>Không tìm thấy nhân viên cần tìm!</h3>
+            <h4>Vui lòng thử lại.</h4>
+        </div>
+    }
 </div>

@@ -1,0 +1,46 @@
+﻿
+@{
+    Layout = "_Layout";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lỗi truy cập</title>
+</head>
+<style>
+    #app {
+        display: flex;
+        justify-content: center; /* căn giữa theo chiều ngang */
+        align-items: center; /* căn giữa theo chiều dọc */
+        height: 60vh; /* chiều cao của màn hình */
+    }
+
+    .container {
+        width: 800px;
+        height: 300px;
+    }
+    button{
+        width: 140px;
+        height: 40px;
+    }
+    a{
+        text-decoration: none;
+        color: black;
+    }
+</style>
+<body>
+    <div id="app">
+        <div class="container">
+            <h1 style="color: red;">ERROR: Lỗi quyền truy cập!</h1>
+            <h3>Bạn không thể truy cập vào trang này do bạn không được cấp quyền truy cập.</h3>
+            <div>
+                <button>
+                    <a href="~/Home/Index">Quay lại trang chủ</a>
+                </button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
